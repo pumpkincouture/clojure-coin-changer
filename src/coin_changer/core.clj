@@ -2,19 +2,18 @@
 
 (def denominations [25 10 5 1])
 
-(defn- largest-denomination [amount]
+(defn get-highest-coin-amount [amount]
   (first (filter #(>= amount %) denominations)))
 
 (defn coin-changer
   ([amount]
    (let
-     [coin (largest-denomination amount)]
-     (coin-changer (- amount coin) [coin])))
+    [coin (get-highest-coin-amount amount)]
+    (coin-changer (- amount coin) [coin])))
 
   ([amount change]
    (let
-     [coin (largest-denomination amount)]
+     [coin (get-highest-coin-amount amount)]
      (cond
-       (nil? coin) change
-       :else (recur (- amount coin) (conj change coin)))))
-)
+       (= amount 0) change
+       :else (recur (- amount coin) (conj change coin))))))
